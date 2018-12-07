@@ -1,4 +1,4 @@
-# Copyright 2016 GNU Radio Foundation
+# Copyright 2018 GNU Radio Foundation
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,18 +18,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# flake8: noqa
-
-from __future__ import absolute_import
-
-import version
-__version__ = version.__version__
-
-from . import archive
-from . import error
-from . import schema
-from . import sigmffile
-from . import validate
-from . import utils
-from .archive import SigMFArchive
-from .sigmffile import SigMFFile
+__version__ = '0.0.2'

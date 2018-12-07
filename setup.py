@@ -1,9 +1,9 @@
+import runpy
 from setuptools import setup
-
-import sigmf
 
 
 shortdesc = "Signal Metadata Format Specification"
+
 longdesc = """
 The Signal Metadata Format (SigMF) specifies a way to describe
 sets of recorded digital signal samples with metadata written in JSON.
@@ -13,9 +13,10 @@ samples, and features of the signal itself.
 
 """
 
+
 setup(
     name='SigMF',
-    version=sigmf.__version__,
+    version=runpy.run_path("sigmf/version.py")['__version__'],
     description=shortdesc,
     long_description=longdesc,
     url='https://github.com/gnuradio/SigMF',
@@ -33,7 +34,7 @@ setup(
     packages=['sigmf'],
     package_data={'sigmf': ['*.json']},
     install_requires=['six', 'numpy'],
-    setup_requires=['six', 'pytest-runner'],
+    setup_requires=['pytest-runner'],
     tests_require=['pytest>3'],
     zip_safe=False
 )

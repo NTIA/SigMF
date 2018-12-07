@@ -23,6 +23,7 @@ Hashing functions
 
 import hashlib
 
+
 def calculate_sha512(filename):
     """
     Returns sha512 of filename
@@ -31,5 +32,5 @@ def calculate_sha512(filename):
     with open(filename, "rb") as f:
         for buff in iter(lambda: f.read(4096), b""):
             the_hash.update(buff)
-    return the_hash.hexdigest()
 
+    return the_hash.hexdigest()

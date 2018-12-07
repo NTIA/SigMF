@@ -18,13 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from __future__ import absolute_import
+
 __version__ = "0.0.1"
 
-import archive
-import error
-import schema
-import sigmffile
-import validate
-import utils
-from archive import SigMFArchive
-from sigmffile import SigMFFile
+from . import archive
+from . import error
+from . import schema
+from . import sigmffile
+from . import validate
+from . import utils
+from .archive import SigMFArchive
+from .sigmffile import SigMFFile

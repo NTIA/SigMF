@@ -22,8 +22,10 @@
 SigMF Tool
 """
 
+from __future__ import absolute_import
+
 import argparse
-from sigmf import SigMFFile
+from .sigmffile import SigMFFile
 
 
 def cmd_validate(args):

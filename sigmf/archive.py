@@ -20,6 +20,8 @@
 
 """Create and extract SigMF archives."""
 
+from __future__ import absolute_import
+
 import os
 import shutil
 import tarfile
@@ -75,7 +77,7 @@ class SigMFArchive(object):
 
         archive_name = self._get_archive_name()
         sigmf_fileobj = self._get_output_fileobj()
-        sigmf_archive = tarfile.TarFile(mode="w", 
+        sigmf_archive = tarfile.TarFile(mode="w",
                                         fileobj=sigmf_fileobj,
                                         format=tarfile.PAX_FORMAT)
         tmpdir = tempfile.mkdtemp()

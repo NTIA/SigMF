@@ -133,7 +133,7 @@ def test_contents(test_sigmffile):
         datfile_reader = sigmf_tarfile.extractfile(datfile)
         # calling `fileno` on `tarfile.ExFileObject` throws error (?), but
         # np.fromfile requires it, so we need this extra step
-        data = np.fromstring(datfile_reader.read(), dtype=np.float32)
+        data = np.frombuffer(datfile_reader.read(), dtype=np.float32)
 
         assert np.array_equal(data, TEST_FLOAT32_DATA)
 

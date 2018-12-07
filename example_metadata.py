@@ -6,7 +6,7 @@
     "global": {
         "core:datatype": "cf32_le",         # The datatype of the recording (here, little-endian complex 32-bit float)
         "core:sample_rate": 10000000,       # The sample rate of the recording (10 MHz, here).
-        "core:version": "0.0.1",            # Version of the SigMF spec used.
+        "core:version": "0.0.2",            # Version of the SigMF spec used.
         "core:description": "An example metadafile for a SigMF recording."
     },
     "captures": [

@@ -32,6 +32,6 @@ TEST_METADATA = {
     'global': {
         'core:datatype': 'f32',
         'core:sha512': 'f4984219b318894fa7144519185d1ae81ea721c6113243a52b51e444512a39d74cf41a4cec3c5d000bd7277cc71232c04d7a946717497e18619bdbe94bfeadd6',
-        'core:version': '0.0.1'
+        'core:version': '0.0.2'
     }
 }

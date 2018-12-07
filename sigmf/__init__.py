@@ -22,7 +22,7 @@
 
 from __future__ import absolute_import
 
-import version
+from . import version
 __version__ = version.__version__
 
 from . import archive

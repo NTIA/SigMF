@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import pytest
-
-from sigmf.error import SigMFValidationError
 from sigmf.sigmffile import SigMFFile
 
 
@@ -29,7 +26,7 @@ MD_VALID = """
     "global": {
         "core:datatype": "cf32",
         "core:offset": 0,
-        "core:version": "0.0.1",
+        "core:version": "0.0.2",
         "core:license": "CC0",
         "core:date": "foo",
         "core:url": "foo",

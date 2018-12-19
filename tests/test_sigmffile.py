@@ -27,7 +27,7 @@ import numpy as np
 from sigmf import sigmffile, utils
 from sigmf.sigmffile import SigMFFile
 
-from .testdata import TEST_FLOAT32_DATA, TEST_METADATA
+from .testdata import TEST_FLOAT32_DATA_1, TEST_METADATA_1
 
 
 def simulate_capture(sigmf_md, n, capture_len):
@@ -71,13 +71,13 @@ def test_add_annotation():
 def test_fromarchive(test_sigmffile):
     tf = tempfile.mkstemp()[1]
     td = tempfile.mkdtemp()
-    archive_path = test_sigmffile.archive(name=tf)
+    archive_path = test_sigmffile.archive(path=tf)
     result = sigmffile.fromarchive(archive_path=archive_path, dir=td)
 
-    assert result._metadata == test_sigmffile._metadata == TEST_METADATA
+    assert result._metadata == test_sigmffile._metadata == TEST_METADATA_1
 
     data = np.fromfile(result.data_file, dtype=np.float32)
-    assert np.array_equal(data, TEST_FLOAT32_DATA)
+    assert np.array_equal(data, TEST_FLOAT32_DATA_1)
 
     os.remove(tf)
     shutil.rmtree(td)

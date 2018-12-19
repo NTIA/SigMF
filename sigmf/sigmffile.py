@@ -29,6 +29,7 @@ from six import iteritems
 
 from . import __version__, schema, sigmf_hash, validate
 from .archive import SigMFArchive, SIGMF_DATASET_EXT, SIGMF_METADATA_EXT
+from .error import SigMFFileError
 from .utils import dict_merge, insert_sorted_dict_list
 
 
@@ -40,6 +41,13 @@ class SigMFFile(object):
       metadata    -- Metadata. Either a string, or a dictionary.
       data_file   -- Path to the corresponding data file.
       global_info -- Dictionary containing global header info.
+      name        -- Name used for directory and filenames if archived.
+                     For example, given `name=archive1`, then passing this
+                     sigmffile to SigMFArchive will add the following files
+                     to the archive:
+                        - archive1/
+                          - archive1.sigmf-meta
+                          - archive1.sigmf-data
 
     """
     START_INDEX_KEY = "core:sample_start"
@@ -56,6 +64,7 @@ class SigMFFile(object):
             metadata=None,
             data_file=None,
             global_info=None,
+            name=None,
     ):
         self.version = None
         self.schema = None
@@ -72,12 +81,31 @@ class SigMFFile(object):
         self.data_file = data_file
         if self.data_file:
             self.calculate_hash()
+        self.name = name
 
     def __str__(self):
         return self.dumps()
 
     def __repr__(self):
         return "SigMFFile(%s)" % self
+
+    def __eq__(self, other):
+        """Define equality between two `SigMFFile`s.
+
+        Rely on the `core:sha512` value in the metadata to decide whether
+        `data_file` is the same since the same sigmf archive could be extracted
+        twice to two different temp directories and the SigMFFiles should still
+        be equivalent.
+
+        """
+        if isinstance(other, SigMFFile):
+            return self._metadata == other._metadata
+
+        return False
+
+    def __ne__(self, other):
+        """Explicit not-equals support required for python2."""
+        return not self == other
 
     def _get_start_offset(self):
         """
@@ -104,7 +132,7 @@ class SigMFFile(object):
         if self.version != current_metadata_version or self.schema is None:
             self.version = current_metadata_version
             self.schema = schema.get_schema(self.version)
-        assert isinstance(self.schema, dict)
+            assert isinstance(self.schema, dict)
         return self.schema
 
     def set_global_info(self, new_global):
@@ -257,13 +285,25 @@ class SigMFFile(object):
             separators=(',', ': ') if pretty else None,
         )
 
-    def archive(self, name=None, fileobj=None):
+    def archive(self, name=None, path=None, fileobj=None):
         """Dump contents to SigMF archive format.
 
-        `name` and `fileobj` are passed to SigMFArchive and are defined there.
+        `name` determines the directory and filenames inside the archive. If
+        not specified, you must have set the instance variable `self.name`. See
+        class docstring for more info.
+
+        `path` and `fileobj` are passed to SigMFArchive and are defined there.
+
+        Returns the path to the archive.
 
         """
-        archive = SigMFArchive(self, name, fileobj)
+        if name is not None:
+            self.name = name
+
+        if path is None:
+            path = self.name
+
+        archive = SigMFArchive(self, path, fileobj)
         return archive.path
 
 
@@ -293,6 +333,10 @@ def get_default_metadata(schema):
 def fromarchive(archive_path, dir=None):
     """Extract an archive and return a SigMFFile.
 
+    This method only makes sensor to call on a single-recording archive. If
+    called on a multi-recording archive, a `SigMFFileError` will be raised.
+    `archive.extract` can handle multi-recording archives.
+
     If `dir` is given, extract the archive to that directory. Otherwise,
     the archive will be extracted to a temporary directory. For example,
     `dir` == "." will extract the archive into the current working
@@ -306,6 +350,11 @@ def fromarchive(archive_path, dir=None):
     members = archive.getmembers()
 
     try:
+        if len(members) > 3:
+            err = "File appears to be a multi-recording archive. "
+            err += "Use `sigmf.archive.extract`."
+            raise SigMFFileError(err)
+
         archive.extractall(path=dir)
 
         data_file = None

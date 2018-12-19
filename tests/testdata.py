@@ -24,14 +24,26 @@
 import numpy as np
 
 
-TEST_FLOAT32_DATA = np.arange(16, dtype=np.float32)
+TEST_FLOAT32_DATA_1 = np.arange(16, dtype=np.float32)
 
-TEST_METADATA = {
+TEST_METADATA_1 = {
     'annotations': [{'core:sample_count': 16, 'core:sample_start': 0}],
     'captures': [{'core:sample_start': 0}],
     'global': {
         'core:datatype': 'f32',
         'core:sha512': 'f4984219b318894fa7144519185d1ae81ea721c6113243a52b51e444512a39d74cf41a4cec3c5d000bd7277cc71232c04d7a946717497e18619bdbe94bfeadd6',
+        'core:version': '0.0.2'
+    }
+}
+
+TEST_FLOAT32_DATA_2 = np.arange(16, 32, dtype=np.float32)
+
+TEST_METADATA_2 = {
+    'annotations': [{'core:sample_count': 16, 'core:sample_start': 0}],
+    'captures': [{'core:sample_start': 0}],
+    'global': {
+        'core:datatype': 'f32',
+        'core:sha512': 'a85018cf117a4704596c0f360dbc3fce2d0d561966d865b9b8a356634161bde6a528c5181837890a9f4d54243e2e8eaf7e19bd535e54e3e34aabf76793723d03',
         'core:version': '0.0.2'
     }
 }

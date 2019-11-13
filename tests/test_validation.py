@@ -52,6 +52,12 @@ MD_VALID = """
             "core:sample_count": 120000,
             "core:comment": "Some textual comment about stuff happenning",
             "gsm:xxx": 111
+        },
+        {
+            "core:sample_start": 100000,
+            "core:sample_count": 180000,
+            "core:comment": "Additional annotation at the same start",
+            "gsm:xxx": 111
         }
     ]
 }
@@ -104,7 +110,8 @@ MD_INVALID_SEQUENCE_ANN = """
 
 
 def test_valid_data():
-    assert SigMFFile(MD_VALID).validate()
+    validation_result = SigMFFile(MD_VALID).validate()
+    assert validation_result, str(validation_result)
 
 
 def test_invalid_capture_seq():

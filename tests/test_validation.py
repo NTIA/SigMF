@@ -63,10 +63,57 @@ MD_VALID = """
 }
 """
 
-MD_INVALID_SEQUENCE_CAP = """
+MD_MISSING_COREVERSION_GLOBAL = """
 {
     "global": {
         "core:datatype": "cf32"
+    },
+    "captures": [
+        {
+            "core:sample_start": 9
+        },
+        {
+            "core:sample_start": 10
+        }
+    ],
+    "annotations": [
+        {
+            "core:sample_start": 100000,
+            "core:comment": "stuff"
+        }
+    ]
+}
+"""
+
+MD_MISSING_SAMPLECOUNT_ANN = """
+{
+    "global": {
+        "core:datatype": "cf32",
+        "core:version": "0.0.2"
+    },
+    "captures": [
+        {
+            "core:sample_start": 0
+        }
+    ],
+    "annotations": [
+        {
+            "core:sample_start": 1,
+            "core:comment": "stuff"
+        },
+        {
+            "core:sample_start": 2,
+            "core:comment": "stuff"
+        }
+    ]
+}
+"""
+
+MD_INVALID_SEQUENCE_CAP = """
+{
+    "global": {
+        "core:datatype": "cf32",
+        "core:version": "0.0.2"
     },
     "captures": [
         {
@@ -88,7 +135,8 @@ MD_INVALID_SEQUENCE_CAP = """
 MD_INVALID_SEQUENCE_ANN = """
 {
     "global": {
-        "core:datatype": "cf32"
+        "core:datatype": "cf32",
+        "core:version": "0.0.2"
     },
     "captures": [
         {
@@ -98,10 +146,12 @@ MD_INVALID_SEQUENCE_ANN = """
     "annotations": [
         {
             "core:sample_start": 2,
+            "core:sample_count": 1,
             "core:comment": "stuff"
         },
         {
             "core:sample_start": 1,
+            "core:sample_count": 1,
             "core:comment": "stuff"
         }
     ]
@@ -112,6 +162,11 @@ MD_INVALID_SEQUENCE_ANN = """
 def test_valid_data():
     validation_result = SigMFFile(MD_VALID).validate()
     assert validation_result, str(validation_result)
+
+
+def test_missing():
+    assert not SigMFFile(MD_MISSING_COREVERSION_GLOBAL).validate()
+    assert not SigMFFile(MD_MISSING_SAMPLECOUNT_ANN).validate()
 
 
 def test_invalid_capture_seq():

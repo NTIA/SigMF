@@ -129,7 +129,7 @@ def validate_section_dict_list(data_section, ref_section, section):
             if not bool(result):
                 return result
         this_index = chunk.get(sort_key, 0)
-        if this_index <= last_index:
+        if this_index < last_index:
             return ValidationResult(
                 False,
                 "In Section `{sec}', chunk starting at index {idx} "\

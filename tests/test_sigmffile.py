@@ -68,6 +68,16 @@ def test_add_annotation():
     f.add_annotation(start_index=0, length=128, metadata=m)
 
 
+def test_add_annotation_with_duplicate_key():
+    f = SigMFFile()
+    f.add_capture(start_index=0)
+    m1 = {"latitude": 40.0, "longitude": -105.0}
+    f.add_annotation(start_index=0, length=128, metadata=m1)
+    m2 = {"latitude": 50.0, "longitude": -115.0}
+    f.add_annotation(start_index=0, length=128, metadata=m2)
+    assert len(f.get_annotations(64)) == 2
+
+
 def test_fromarchive(test_sigmffile):
     tf = tempfile.mkstemp()[1]
     td = tempfile.mkdtemp()

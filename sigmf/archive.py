@@ -67,7 +67,9 @@ class SigMFArchive(object):
         self.path = path
         self.fileobj = fileobj
 
-        if isinstance(sigmffiles, collections.Iterable):
+        if hasattr(collections, "Iterable") and isinstance(sigmffiles, collections.Iterable):
+            self.sigmffiles = sigmffiles
+        elif isinstance(sigmffiles, collections.abc.Iterable): # python 3.10
             self.sigmffiles = sigmffiles
         else:
             self.sigmffiles = [sigmffiles]

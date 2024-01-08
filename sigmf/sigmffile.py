@@ -271,6 +271,7 @@ class SigMFFile(object):
             indent=4 if pretty else None,
             separators=(',', ': ') if pretty else None,
         )
+        filep.write("\n")
 
     def dumps(self, pretty=False):
         """
@@ -283,7 +284,7 @@ class SigMFFile(object):
             self._metadata,
             indent=4 if pretty else None,
             separators=(',', ': ') if pretty else None,
-        )
+        ) + "\n"
 
     def archive(self, name=None, path=None, fileobj=None):
         """Dump contents to SigMF archive format.

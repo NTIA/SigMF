@@ -61,9 +61,11 @@ class SigMFArchive(object):
                     `fileobj` is an open tarfile, it will be appended to. It is
                     supposed to be at position 0. `fileobj` won't be closed. If
                     `fileobj` is given, `path` has no effect.
+      pretty     -- If True, pretty print JSON when creating the metadata
+                    files in the archive. Defaults to True.
 
     """
-    def __init__(self, sigmffiles, path=None, fileobj=None):
+    def __init__(self, sigmffiles, path=None, fileobj=None, pretty=True):
         self.path = path
         self.fileobj = fileobj
 
@@ -103,7 +105,7 @@ class SigMFArchive(object):
             sigmf_data_path = os.path.join(tmpdir, sigmf_data_path)
 
             with open(sigmf_md_path, "w") as mdfile:
-                sigmffile.dump(mdfile, pretty=True)
+                sigmffile.dump(mdfile, pretty=pretty)
 
             shutil.copy(sigmffile.data_file, sigmf_data_path)
             sigmf_archive.add(tmpdir, arcname=sigmffile.name, filter=chmod)

@@ -23,7 +23,7 @@
 from __future__ import absolute_import
 
 from . import version
-__version__ = version.__version__
+__version__ = '0.0.4'
 
 from . import archive
 from . import error

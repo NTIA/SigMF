@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SigMF"
+dynamic = ["version"]
+description = "Signal Metadata Format Specification"
+dependencies = [
+    "six",
+    "numpy",
+]
+
+[tool.setuptools]
+packages = ["sigmf"]
+zip-safe = false
+
+[tool.setuptools.package-data]
+sigmf = ["*.json"]
+
+[tool.setuptools.dynamic]
+version = { attr = "sigmf.__version__" }
